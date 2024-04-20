@@ -2,4 +2,4 @@
 
 ## Установка NiFi через Docker
 
- ![Установка NiFi через докер]("/images/Step 1.jpg")
+ ![Установка NiFi через докер](images/Step1.jpg)
