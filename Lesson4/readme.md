@@ -39,3 +39,9 @@ Supports Expression Language: true (will be evaluated using variable registry on
 
 ## Итоговоый pipeline
 ![NiFi](images/step7.jpg)
+
+
+## Troubleshooting
+
+1. Тип ключа для сервисного аккаунта должнен быть: Статический ключ доступа, на API, как в оригиальном s3
+- ![API KEY](images/step8.jpg)
