@@ -6,7 +6,7 @@ From alpine:latest
 
 RUN apk update && apk upgrade --no-cache
 RUN apk add curl wget gpg unzip --no-cache
-RUN apk add python3 --no-chache
+RUN apk add python3 --no-cache
 
 # Install dbt adapter
 RUN set -ex \
