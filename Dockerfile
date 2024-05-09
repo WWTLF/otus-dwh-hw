@@ -1,8 +1,12 @@
 From alpine:latest
 
-RUN apt -y update \
-    && apt -y upgrade \
-    && apt -y install curl wget gpg unzip
+# RUN apt -y update \
+#     && apt -y upgrade \
+#     && apt -y install curl wget gpg unzip
+
+RUN apk update && apk upgrade --no-cache
+RUN apk add curl wget gpg unzip --no-cache
+RUN apk add python3 --no-chache
 
 # Install dbt adapter
 RUN set -ex \
