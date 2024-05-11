@@ -19,11 +19,12 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"innoverio.vscode-dbt-power-user",
 				"ms-python.python",
 				"eamodio.gitlens",
 				"GitHub.vscode-pull-request-github",
-				"nemesv.copy-file-name"
+				"nemesv.copy-file-name",
+				"ms-azuretools.vscode-docker",
+				"HashiCorp.terraform"
 			]
 		}
 	},

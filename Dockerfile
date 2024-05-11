@@ -1,5 +1,7 @@
 From alpine:latest
 
+RUN apk add --no-cache bash
+
 # RUN apt -y update \
 #     && apt -y upgrade \
 #     && apt -y install curl wget gpg unzip
@@ -13,12 +15,6 @@ RUN rm /usr/lib/python*/EXTERNALLY-MANAGED
 # RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
-
-# Install dbt adapter
-RUN set -ex \
-    && python -m pip install --upgrade pip setuptools \
-    && python -m pip install --upgrade dbt-clickhouse
-
 # Install yc CLI
 RUN curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | \
     bash -s -- -a
@@ -29,3 +25,5 @@ RUN curl -sL https://hashicorp-releases.yandexcloud.net/terraform/${TERRAFORM_VE
     && unzip terraform.zip \
     && install -o root -g root -m 0755 terraform /usr/local/bin/terraform \
     && rm -rf terraform terraform.zip
+
+RUN ln -sf /root/yandex-cloud/bin/yc /usr/local/bin
