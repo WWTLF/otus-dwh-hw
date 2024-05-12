@@ -20,7 +20,7 @@ default_args = {
 dag = DAG(
     'iss',    
     description='Otus Lab lesson 10',
-    schedule_interval=timedelta(days=1),
+    schedule_interval=timedelta(minutes=30), 
     default_args=default_args,
 )
 
@@ -33,8 +33,15 @@ get_position = PythonOperator(
 save_postion = PostgresOperator(
     task_id="save_postion",
     postgres_conn_id="otus_lab",
-    sql="SELECT * FROM iss",
-    parameters={"begin_date": "2020-01-01", "end_date": "2020-12-31"},
+    sql="""
+        begin;
+        insert into iss(ts, lat, lon) values (
+            TO_TIMESTAMP({{ ti.xcom_pull(task_ids='request_lat_lon', key='return_value')['timestamp'] }}), 
+            {{ ti.xcom_pull(task_ids='request_lat_lon', key='return_value')['iss_position']['latitude'] }}, 
+            {{ ti.xcom_pull(task_ids='request_lat_lon', key='return_value')['iss_position']['longitude'] }}
+            );
+        commit;
+        """,
     dag=dag
 )
 

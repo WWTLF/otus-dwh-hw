@@ -46,6 +46,21 @@ resource "yandex_vpc_security_group" "db-sg" {
     description       = "Access only from the Airflow VM"
     security_group_id = yandex_vpc_security_group.airflow-sg.id    
   }
+
+  ingress {
+    protocol          = "TCP"
+    description       = "Access from datalens"
+    v4_cidr_blocks = [
+          "178.154.242.176/28",
+          "178.154.242.192/28",
+          "178.154.242.208/28",
+          "178.154.242.128/28",
+          "178.154.242.144/28",
+          "178.154.242.160/28",
+          "130.193.60.0/28"
+    ]
+    port = 6432
+  }
 }
 
 
