@@ -30,14 +30,13 @@ resource "yandex_vpc_subnet" "otus-lab-subnet-b" {
 
 
 resource "yandex_vpc_security_group" "db-sg" {
-  name        = "Private DB SG"
+  name        = "db-sg"
   description = "Private DB SG"
   network_id  = yandex_vpc_network.otus-lab.id
 
   ingress {
-    protocol    = "TCP"
-    description = "Access only from the Airflow VM"
-    # v4_cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"]
+    protocol          = "TCP"
+    description       = "Access only from the Airflow VM"
     security_group_id = yandex_vpc_security_group.airflow-sg.id
     port              = 5432
   }
@@ -45,7 +44,7 @@ resource "yandex_vpc_security_group" "db-sg" {
 
 
 resource "yandex_vpc_security_group" "airflow-sg" {
-  name        = "Private DB SG"
+  name        = "airflow-sg"
   description = "Private DB SG"
   network_id  = yandex_vpc_network.otus-lab.id
 
@@ -53,22 +52,32 @@ resource "yandex_vpc_security_group" "airflow-sg" {
 
 
 
-resource "yandex_vpc_security_group_rule" "ingress1" {
+resource "yandex_vpc_security_group_rule" "ingress-80" {
   security_group_binding = yandex_vpc_security_group.airflow-sg.id
   protocol               = "TCP"
   description            = "Public access from the Internet"
   v4_cidr_blocks         = ["0.0.0.0/0"]
-  port                   = 8080
-  direction = "ingress"
+  port                   = 80
+  direction              = "ingress"
+}
+
+resource "yandex_vpc_security_group_rule" "ingress-22" {
+  security_group_binding = yandex_vpc_security_group.airflow-sg.id
+  protocol               = "TCP"
+  description            = "Public access from the Internet"
+  v4_cidr_blocks         = ["0.0.0.0/0"]
+  port                   = 22
+  direction              = "ingress"
 }
 
 
-resource "yandex_vpc_security_group_rule" "egress1" {
+
+resource "yandex_vpc_security_group_rule" "egress-5432" {
   security_group_binding = yandex_vpc_security_group.airflow-sg.id
   protocol               = "TCP"
-  direction = "egress"
+  direction              = "egress"
   description            = "Egress Access to the postgres"
-  to_port                = 5432
+  port                   = 5432
   security_group_id      = yandex_vpc_security_group.db-sg.id
 }
 
@@ -88,21 +97,21 @@ resource "yandex_mdb_postgresql_database" "lesson10" {
 resource "yandex_mdb_postgresql_user" "user" {
   cluster_id = yandex_mdb_postgresql_cluster.otus-lab-db-cluster.id
   name       = "user"
-  password   = "123"
+  password   = "12345678"
 }
 
 resource "yandex_mdb_postgresql_cluster" "otus-lab-db-cluster" {
-  name        = "lesson10"
-  environment = "PRESTABLE"
-  network_id  = yandex_vpc_network.otus-lab.id
-  security_group_ids = [ yandex_vpc_security_group.db-sg.id ]
+  name               = "lesson10"
+  environment        = "PRESTABLE"
+  network_id         = yandex_vpc_network.otus-lab.id
+  security_group_ids = [yandex_vpc_security_group.db-sg.id]
 
   config {
     version = 15
     resources {
       resource_preset_id = "s2.micro"
       disk_type_id       = "network-ssd"
-      disk_size          = 4
+      disk_size          = 16
     }
   }
 
@@ -127,19 +136,21 @@ resource "yandex_compute_instance" "airflow-vm" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.otus-lab-subnet-a.id
-    security_group_ids = [ yandex_vpc_security_group.airflow-sg.id ]
+    subnet_id          = yandex_vpc_subnet.otus-lab-subnet-a.id
+    security_group_ids = [yandex_vpc_security_group.airflow-sg.id]
+    nat                = true
   }
 
   metadata = {
-    foo      = "bar"
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    serial-port-enable =  "1"
+    enable-oslogin = true
   }
 }
 resource "yandex_compute_disk" "airflowdisk" {
-  
   type     = "network-ssd"
   zone     = "ru-central1-a"
-  image_id = "ubuntu-16.04-v20180727"
+  image_id = "fd8829m2l6d5lu2qip10"
+  size     = 16
 }
 
