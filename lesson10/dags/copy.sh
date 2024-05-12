@@ -1,1 +1,0 @@
-scp iss.py ubuntu@158.160.109.136:/home/airflow/dags/iss.py

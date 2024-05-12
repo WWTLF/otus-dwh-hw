@@ -20,7 +20,7 @@ default_args = {
 dag = DAG(
     'iss',    
     description='Otus Lab lesson 10',
-    schedule_interval=timedelta(minutes=30), 
+    schedule_interval=timedelta(minutes=5), 
     default_args=default_args,
 )
 
