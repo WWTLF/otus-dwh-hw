@@ -37,8 +37,14 @@ resource "yandex_vpc_security_group" "db-sg" {
   ingress {
     protocol          = "TCP"
     description       = "Access only from the Airflow VM"
-    security_group_id = yandex_vpc_security_group.airflow-sg.id
-    port              = 5432
+    security_group_id = yandex_vpc_security_group.airflow-sg.id    
+    port              = 6432
+  }
+
+  ingress {
+    protocol          = "ICMP"
+    description       = "Access only from the Airflow VM"
+    security_group_id = yandex_vpc_security_group.airflow-sg.id    
   }
 }
 
@@ -72,13 +78,32 @@ resource "yandex_vpc_security_group_rule" "ingress-22" {
 
 
 
-resource "yandex_vpc_security_group_rule" "egress-5432" {
+resource "yandex_vpc_security_group_rule" "egress-6432" {
   security_group_binding = yandex_vpc_security_group.airflow-sg.id
   protocol               = "TCP"
   direction              = "egress"
-  description            = "Egress Access to the postgres"
-  port                   = 5432
+  description            = "Egress Access to the postgres"  
+  port                   = 6432
   security_group_id      = yandex_vpc_security_group.db-sg.id
+}
+
+
+resource "yandex_vpc_security_group_rule" "egress-icmp" {
+  security_group_binding = yandex_vpc_security_group.airflow-sg.id
+  protocol               = "ICMP"
+  direction              = "egress"
+  description            = "Egress Access to the postgres"  
+  security_group_id      = yandex_vpc_security_group.db-sg.id
+}
+
+
+resource "yandex_vpc_security_group_rule" "egress-open-notify" {
+  security_group_binding = yandex_vpc_security_group.airflow-sg.id
+  protocol               = "TCP"
+  direction              = "egress"
+  description            = "Egress Access to the open-notify"
+  port                   = 80
+  v4_cidr_blocks = [ "138.68.39.196/32" ]
 }
 
 

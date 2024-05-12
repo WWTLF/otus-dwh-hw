@@ -4,8 +4,17 @@ from datetime import timedelta, datetime
 # The DAG object; we'll need this to instantiate a DAG
 from airflow import DAG
 # Operators; we need this to operate!
-from airflow.sensors.http_sensor import HttpSensor
+# from airflow.providers.http.operators.http import SimpleHttpOperator
+from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
+import requests
+
+
+def request_lat_lon(): 
+    r = requests.get('http://api.open-notify.org/iss-now.json')
+    return r.json()
+
+    
 
 default_args = {
         'owner' : 'airflow',
@@ -19,13 +28,10 @@ dag = DAG(
     default_args=default_args,
 )
 
-
-request_lat_lon =  HttpSensor(
+t1 = PythonOperator(
     task_id='request_lat_lon',
-    http_conn_id='http_default',
-    endpoint='http://api.open-notify.org/iss-now.json',
-    request_params={},        
-    dag=dag,
+    python_callable= request_lat_lon,
+    dag=dag
 )
 
-request_lat_lon
+t1
