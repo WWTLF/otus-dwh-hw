@@ -1,12 +1,8 @@
 from datetime import timedelta, datetime
-
-# [START import_module]
-# The DAG object; we'll need this to instantiate a DAG
 from airflow import DAG
-# Operators; we need this to operate!
-# from airflow.providers.http.operators.http import SimpleHttpOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
+from airflow.operators.postgres_operator import PostgresOperator
 import requests
 
 
@@ -28,10 +24,18 @@ dag = DAG(
     default_args=default_args,
 )
 
-t1 = PythonOperator(
+get_position = PythonOperator(
     task_id='request_lat_lon',
     python_callable= request_lat_lon,
     dag=dag
 )
 
-t1
+save_postion = PostgresOperator(
+    task_id="save_postion",
+    postgres_conn_id="otus_lab",
+    sql="SELECT * FROM iss",
+    parameters={"begin_date": "2020-01-01", "end_date": "2020-12-31"},
+    dag=dag
+)
+
+get_position >> save_postion
