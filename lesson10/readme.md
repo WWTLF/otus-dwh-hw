@@ -13,7 +13,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 export $(xargs <.env)
 ```
 
-## Инфраструктуры
+## Инфраструктура
 
 1. Подсети
 	- otus-lab-subnet-a
