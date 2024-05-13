@@ -13,7 +13,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 export $(xargs <.env)
 ```
 
-## Инфраструктуры
+## Инфраструктура
 
 1. Подсети
 	- otus-lab-subnet-a
@@ -37,6 +37,7 @@ export $(xargs <.env)
 |PostgreSQL|otus-lab-subnet-b|db-sg|
 
 ## Структура БД
+
 1. Подключаемся к БД из bach airflow VM: psql -h rc1a-3hidusiqgw9fp410.mdb.yandexcloud.net -p 6432 -U user lesson10
 2. Создаем таблицу для хранения результатов
  ```
@@ -90,6 +91,11 @@ save_postion = PostgresOperator(
 )
 ```
 
+Сохраняем файл iss.py в папку /home/airflow/dags, затем открываем airflow dashboard и проверяем как исполняется DAG:
+
+![dag](images/dag.jpg)
+
+
 Проверяем результат подключаясь из BASH airflow vm к БД:
 
 ```
@@ -102,7 +108,6 @@ save_postion = PostgresOperator(
  2024-05-12 23:03:26 | 48.2413 | 21.2233
 (4 rows)
 ```
-
 
 ## Визуализация
 
