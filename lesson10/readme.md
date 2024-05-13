@@ -120,3 +120,7 @@ save_postion = PostgresOperator(
 4. Открываем публичный доступ: https://datalens.yandex/zfcnngyl2s6mn
 
 ![map](images/map.jpg)
+
+К утру следующего дня:
+
+![map2](images/map2.jpg)
