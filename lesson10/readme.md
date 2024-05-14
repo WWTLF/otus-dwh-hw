@@ -28,6 +28,7 @@ export $(xargs <.env)
 |airflow-sg|Группа для доступа к dashboard airflow из интенрета|ingress|TCP|80|0.0.0.0/0|
 |airflow-sg|Группа для доступа к ssh airflow из интенрета|ingress|TCP|22|0.0.0.0/0|
 |airflow-sg|Группа для доступа из airflow к источнику данных|egress|TCP|80|138.68.39.196/32|
+|airflow-sg|Группа для доступа из airflow к Postgres|egress|TCP|864320|db-sg|
 
 3. Managed сервисы в облаке
 
