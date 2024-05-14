@@ -115,7 +115,7 @@ save_postion = PostgresOperator(
 1. Даем доступ к Datalens из БД
 2. Создаем dataset из таблицы iss
 3. Создаем chart из dataset
-	- Источник данных: таблицы iss
+	- Источник данных: таблица iss
 	- Тип: Полилинии GEOPOINT([lat],[lon])
 	- Порядок: ts
 4. Открываем публичный доступ: https://datalens.yandex/zfcnngyl2s6mn
