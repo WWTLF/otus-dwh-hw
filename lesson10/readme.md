@@ -27,7 +27,7 @@ export $(xargs <.env)
 |db-sg|Группа для диагностики доступности хоста их VM Airflow|ingress|ICMP|6432|airflow-sg|
 |airflow-sg|Группа для доступа к dashboard airflow из интенрета|ingress|TCP|80|0.0.0.0/0|
 |airflow-sg|Группа для доступа к ssh airflow из интенрета|ingress|TCP|22|0.0.0.0/0|
-|airflow-sg|Группа для доступа из airflow к источнику данных|eggress|TCP|80|138.68.39.196/32|
+|airflow-sg|Группа для доступа из airflow к источнику данных|egress|TCP|80|138.68.39.196/32|
 
 3. Managed сервисы в облаке
 
