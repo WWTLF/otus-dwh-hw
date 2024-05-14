@@ -24,7 +24,7 @@ export $(xargs <.env)
 |------|----------|---|--------|----|-------|
 |db-sg|Группа для поключения к БД из airflow vm|ingress|TCP|6432|airflow-sg|
 |db-sg|Группа для поключения к БД из datalens|ingress|TCP|6432|Список CIDR из документации к datalens|
-|db-sg|Группа для диагностики доступности хоста их VM Airflow|ingress|ICMP|6432|airflow-sg|
+|db-sg|Группа для диагностики доступности хоста из VM Airflow|ingress|ICMP|6432|airflow-sg|
 |airflow-sg|Группа для доступа к dashboard airflow из интенрета|ingress|TCP|80|0.0.0.0/0|
 |airflow-sg|Группа для доступа к ssh airflow из интенрета|ingress|TCP|22|0.0.0.0/0|
 |airflow-sg|Группа для доступа из airflow к источнику данных|egress|TCP|80|138.68.39.196/32|
