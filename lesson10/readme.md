@@ -24,10 +24,11 @@ export $(xargs <.env)
 |------|----------|---|--------|----|-------|
 |db-sg|Группа для поключения к БД из airflow vm|ingress|TCP|6432|airflow-sg|
 |db-sg|Группа для поключения к БД из datalens|ingress|TCP|6432|Список CIDR из документации к datalens|
-|db-sg|Группа для диагностики доступности хоста их VM Airflow|ingress|ICMP|6432|airflow-sg|
+|db-sg|Группа для диагностики доступности хоста из VM Airflow|ingress|ICMP|6432|airflow-sg|
 |airflow-sg|Группа для доступа к dashboard airflow из интенрета|ingress|TCP|80|0.0.0.0/0|
 |airflow-sg|Группа для доступа к ssh airflow из интенрета|ingress|TCP|22|0.0.0.0/0|
-|airflow-sg|Группа для доступа из airflow к источнику данных|eggress|TCP|80|138.68.39.196/32|
+|airflow-sg|Группа для доступа из airflow к источнику данных|egress|TCP|80|138.68.39.196/32|
+|airflow-sg|Группа для доступа из airflow к Postgres|egress|TCP|6432|db-sg|
 
 3. Managed сервисы в облаке
 
@@ -114,7 +115,7 @@ save_postion = PostgresOperator(
 1. Даем доступ к Datalens из БД
 2. Создаем dataset из таблицы iss
 3. Создаем chart из dataset
-	- Источник данных: таблицы iss
+	- Источник данных: таблица iss
 	- Тип: Полилинии GEOPOINT([lat],[lon])
 	- Порядок: ts
 4. Открываем публичный доступ: https://datalens.yandex/zfcnngyl2s6mn
