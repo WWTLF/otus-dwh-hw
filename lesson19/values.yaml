@@ -1,0 +1,13 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+  hosts:
+    - "superset.local"
+  path: /
+  pathType: Prefix
+
+extraSecretEnv:
+  SUPERSET_SECRET_KEY: "MBwPtMPGpVtpospufJ0LzLfClIdTuSddYAQB0pnGWrxlS4aRS9X3EtMnJTAWYQwIkSLR28KpXAgcKC90P7Cps89rv68Vj8LJKnJYKaXXDJc5PKwJf9BWdmIjU1ujCr8W"
+
+
