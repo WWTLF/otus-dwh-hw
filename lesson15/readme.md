@@ -35,7 +35,7 @@ SELECT
     from source group by order_week, status
 ```
 
-Скриншот: ![Week mart](/images/mart.jpg)
+Скриншот: ![Week mart](images/mart.jpg)
 
 
 ### Изменения атрибутного состава клиентов
@@ -103,7 +103,7 @@ src_ldts: LOAD_DATE
 ```
 
 3. Сама таблица содержит только ключ хаба customers, и даты загрузок в сателлиты, ей нужна еще одна витрина: 
- ![pit1](/images/pit1.jpg)
+ ![pit1](images/pit1.jpg)
 
 4. Создаем витрину для PIT таблицы: https://github.com/WWTLF/otus_dwh_15/blob/main/models/marts/mart_pit_customers.sql
     - К ней джим сателлиты по ключу клиента и датам загрузки
@@ -163,7 +163,7 @@ order by
     pcd.as_of_date
 ```
 
-![pit2](/images/pit2.jpg)
+![pit2](images/pit2.jpg)
 
 Если на as_of_date, данных в сателлите нет, то отображатся NULLы, так как данные были загружены (effective_from) после времени в as_of_date
 
